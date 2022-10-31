@@ -58,7 +58,6 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             $em->flush();
 
             // $response = new Response();                                          // Première option

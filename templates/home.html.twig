@@ -8,20 +8,9 @@
 
   <h1 class="text-center">Nos produits phares</h1>
   <div class="row">
-  {% for product in products %}
+  {% for p in products %}
     <div class="col">
-      <div class="card">
-        <img src={{product.picture}} class="img-fluid" alt="Image du produit">
-        <div class="card-body">
-          <h4 class="card-titlle">{{product.name}} {{product.price / 100 }}&euro;</h4>
-          <span class="badge badge-info text-black bg-warning">
-            {{product.category.name}}
-          </span>
-          <p class="card-text">{{product.shortDescription}}</p>
-          <a href="#" class="btn btn-primary btn-sm">Détails</a>
-          <a href="#" class="btn btn-success btn-sm">Ajouter</a>
-        </div>
-      </div>
+      {% include "product/_product_card.html.twig" with {'product': p}%}
     </div> 
   {% endfor %}
   </div>
@@ -34,17 +23,17 @@
   {% include "shared/_assurance.html.twig" with {
     'color': 'primary',
     'icone': 'fas fa-truck',
-    'text': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, laboriosam quae totam amet necessitatibus odio!'
+    'text': 'Une livraison ultra-rapide !'
   } %}
   {% include "shared/_assurance.html.twig" with {
     'color': 'success',
     'icone': 'fas fa-check',
-    'text': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, laboriosam quae totam amet necessitatibus odio!'
+    'text': 'Authenticitée toujours garanti'
   } %}
   {% include "shared/_assurance.html.twig" with {
     'color': 'warning',
     'icone': 'fas fa-lock',
-    'text': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, laboriosam quae totam amet necessitatibus odio!'
+    'text': 'Une sécurité en plus pour vou et le revendeur'
   } %}
 
   </div>

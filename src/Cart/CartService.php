@@ -25,6 +25,11 @@ class CartService
     $this->requetStack->getSession()->set('cart', $cart);
   }
 
+  public function empty () 
+  {
+    $this->saveCart([]);
+  }
+
   public function add(int $id) 
   {
 
@@ -82,12 +87,15 @@ class CartService
         continue;
       }
 
-      $total += (($product->getPrice() * $qty) / 100);
+      $total += (($product->getPrice() * $qty));
     }
 
     return $total;
   }
 
+  /**
+   * @return CartItem[]
+   */
   public function getDetailedCartItems() : array {
     $detailedCart = [];
 

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,6 +44,13 @@ class Product
     #[Assert\Length(min: 20, minMessage:'La description courte doit au minimum faire 20 caractères')]
     private ?string $shortDescription = null;
 
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: PurchaseDetails::class)]
+    private Collection $purchaseDetails;
+
+    public function __construct()
+    {
+        $this->purchaseDetails = new ArrayCollection();
+    }
 
     // -- validate les données en static dans la classe du produit --
 
@@ -126,6 +135,36 @@ class Product
     public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseDetails>
+     */
+    public function getPurchaseDetails(): Collection
+    {
+        return $this->purchaseDetails;
+    }
+
+    public function addPurchaseDetail(PurchaseDetails $purchaseDetail): self
+    {
+        if (!$this->purchaseDetails->contains($purchaseDetail)) {
+            $this->purchaseDetails->add($purchaseDetail);
+            $purchaseDetail->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseDetail(PurchaseDetails $purchaseDetail): self
+    {
+        if ($this->purchaseDetails->removeElement($purchaseDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseDetail->getProducts() === $this) {
+                $purchaseDetail->setProducts(null);
+            }
+        }
 
         return $this;
     }

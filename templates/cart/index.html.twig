@@ -27,7 +27,7 @@
                             {{ item.qty }}
                             <a href="{{ path("cart_decrement", {'id': item.product.id}) }}" class="btn btn-sm btn-primary ml-1"><i class="fas fa-minus"></i></a>
                         </td>
-                        <td>{{ item.total }}€</td>
+                        <td>{{ item.total / 100}}€</td>
                         <td>
                             <a href="{{ path('cart_delete', {'id': item.product.id}) }}" class="btn btn-sm btn-danger"><i class="fas fa-remove"></i></a>
                         </td>
@@ -37,11 +37,27 @@
             <tfoot>
                 <tr>
                     <td colspan='4'>Total : </td>
-                    <td colspan='2'>{{ total }}€</td>
+                    <td colspan='2'>{{ total / 100}}€</td>
                 </tr>
             </tfoot>
         </table>
+        <hr>
+        {% if app.user %}
+            <h2>Remplissez votre commande en remplissant ce formulaire</h2>
+
+            {{ form_start(confirmationForm, {'action': path('purchase_confirm')}) }}
+            {{ form_widget(confirmationForm) }}
+
+            <button type="submit" class="btn btn-success">Je confirme</button>
+
+            {{ form_end(confirmationForm) }}
+        
+        {% else %}
+            <h2 class='text-center'>Vous devez être connecté pour confirmer cette commande</h2>
+            <a href="{{ path('security_login') }}" class="btn btn-primary text-center justify-center">Connexion</a> ou 
+            <a href="#">Créez un compte</a>
+        {% endif %}
     {% else %}
-        <h2 class='text-center'>Le panier est vide !</h2>
+        <h2 class='text-center pt-5'>Le panier est vide !</h2>
     {% endif %}
 {% endblock %}
